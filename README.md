@@ -17,6 +17,25 @@ for studying LLM AI with nomad coder..
     5. .env 파일 생성 후 설정 값 작성.
 
 # 241215-2
+    #3.0강의
     1.jupyter Notebooks.
     2.openaiplatform에 $5결제 후, APIkey 등록
     3.llm / chatmodel 테스트 진행.
+
+# 241217
+    #3.1 Predict Messages
+    1. 질문 내용 하나만을 predict 하는 것이 아닌, 문맥을 읽을 수 있도록 시스템설정, AI가 이야기한 내용, 사람이 이야기한 내용을 모아서 전달하고 문맥에 맞게 답을 내놓도록 하는 것.
+    - SytemMessage(시스템설정) / AIMessage(AI가 한 말) /HumanMassage(사람이 한 말)
+
+# 241220
+    #3.2 Prompt Template
+    1. Prompt Template(String = 설정활용) / ChatPromptTempalte(Messages = 문맥활용)가 있고, 각각 장단점이 있다.
+    - PromptTemplate - 템플릿을 포맷해서 나온 프롬프트를 ChatAI에게 "String"으로 전달하여 Predict
+        prompt = template.format(country_a = "korea", country_b = "japan")
+    - ChatPromptTemplate - 템플릿을 포맷해서 나온 프롬프트를 ChatAI에게 "Messages"로 전달하여 Predict
+        prompt = template.format_messages(launguage="Korean", name="고구", country_a="Seoul", country_b="Busan")
+
+# 241221
+    #3.3 OutputParser and LCEL(lang chain expression launguage)
+    1. Parser가 필요한 이유는 LLM의 응답을 저장하는 등 변경해서 사용해야 할 떄가 있기 떄문이다.
+        #strip() - remove whitespace, split() - split by comma
