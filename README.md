@@ -39,3 +39,17 @@ for studying LLM AI with nomad coder..
     #3.3 OutputParser and LCEL(lang chain expression launguage)
     1. Parser가 필요한 이유는 LLM의 응답을 저장하는 등 변경해서 사용해야 할 떄가 있기 떄문이다.
         #strip() - remove whitespace, split() - split by comma
+    2. Chain 이라는 것은 기본적으로, 모든 요소를 합쳐주는 역할.
+        ex. chain = template | chat | CommaOutputParser()
+        template 지정 >> formating 해서 chatAI에게 전달 >> parser 사용해서 결과 얻기의 이련의 과정을 묶어서 표현.
+    
+    #3.4 Chaining Chains >> notebook1.ipynb에서 진행
+        chef_chain = chef_prompt | chat
+        veg_chain = veg_chef_pprompt | chat
+        >> final_chain = {"recipe":chef_chain} | veg_chain　
+           ＃다음 요소에 결과값을 전달하는 구조 : RunableMap이라고 하는 랭체인언어.
+        >> final_chain.invoke({"cuisine":"italian",})
+
+    #3.5 Recap
+
+# 241222
