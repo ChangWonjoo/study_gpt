@@ -53,3 +53,21 @@ for studying LLM AI with nomad coder..
     #3.5 Recap
 
 # 241222
+    #4.0 Introduction
+
+# 241224
+    #4.1 FewShotPromptTemplate
+    fewshot은 모델에게 더 좋은 대답을 할 수 있도록 참고할 수 있는 좋은 대답 예제를 준다는 뜻.(systemMessage로 설정하던 것을 예제를 통해 설정하는 것으로 변경할 수 있다.)
+
+    #{question} 과 {answer}의 변수 이름을 예저와 잘 맞춰줘야 한다.
+    예제의 형식을 지정해주는 방법>>
+        example_template = """
+            Human:{question}
+            AI:{answer}
+        """
+        prompt = FewShotPromptTemplate(
+            example_template=example_template,
+            examples=examples,
+            suffix="Hhuman: What do you know about {country}?",
+            input_variable=["country"],
+        )
