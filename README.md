@@ -71,3 +71,12 @@ for studying LLM AI with nomad coder..
             suffix="Hhuman: What do you know about {country}?",
             input_variable=["country"],
         )
+
+# 241228
+    #4.2 FewShotChatMessagePromptTemplate
+    examples를 이용해 시스템 메세지, *형식화된 예제*, 질문이 포함된 나만의 최종 프롬프트를 만든다.
+    >> chatpromptTemplate.from_message안에 examples와 example_template로 만든 example_prompt를 넣어서 프롬프트를 포맷팅
+
+# 250101
+    #4.3 LengthBaseExampleSelector
+    
