@@ -83,3 +83,6 @@ for studying LLM AI with nomad coder..
     RandomExapleSelector : 저장해둔 예제 중 하나를 랜덤으로 사용하도록 가져올 수 있다.
 
     #4.4 Serialization and Composition
+    load_prompt : 외부 Prompt를 활용하는 방법 (josn / yaml)
+    PipelinePromptTemplate : 많은 프롬프트들의 memory를 모으는 방법
+    * #연결 해주는 프롬프트의 형태를 설명하고, 리스트 형태로 조각 프롬프트를 넣어서 완성된 프롬프트를 만든다
