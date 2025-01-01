@@ -79,4 +79,7 @@ for studying LLM AI with nomad coder..
 
 # 250101
     #4.3 LengthBaseExampleSelector
-    
+    LengthBaseExampleSelector : 사용자의 종류, 로그인 여부, 사용하는 모델에 따라 활용하는 예제의 양을 조절할 수 있다.
+    RandomExapleSelector : 저장해둔 예제 중 하나를 랜덤으로 사용하도록 가져올 수 있다.
+
+    #4.4 Serialization and Composition
