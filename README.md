@@ -85,4 +85,28 @@ for studying LLM AI with nomad coder..
     #4.4 Serialization and Composition
     load_prompt : 외부 Prompt를 활용하는 방법 (josn / yaml)
     PipelinePromptTemplate : 많은 프롬프트들의 memory를 모으는 방법
-    * #연결 해주는 프롬프트의 형태를 설명하고, 리스트 형태로 조각 프롬프트를 넣어서 완성된 프롬프트를 만든다
+    * #연결 해주는 프롬프트의 형태를 설명하고, 리스트 형태로 조각 프롬프트를 넣어서 완성된 프롬프트를 만든다.
+
+# 250106 - 아직 강의 실습 안함
+-- notebook4 -- 
+    #4.5 Chaching
+    같은 질문이 반복적으로 올 확률이 높다면, 캐시를 이용해서 정해진 답을 반복 제출하게 함으로써 효율을 높일 수 있다. >> set_llm_cache(InMemoryCache()) 
+    개발과정에서 챗모델의 작업 과정이나 결과물 도출을 위해 사용된 설정 및 수치를 확인 할 수 있다. >> set_debug(True)
+
+    #4.6 Serialization
+    챗모델을 사용하는 비용을 추정할 수 있다. >> with get_openai_callback() as usage:
+    llm모델의 설정을 저장하고 불러올 수 있다. >> 저장: chat.save("models.json") //
+
+
+# 250107 - 아직 강의 실습 안함
+    #5.1~5.4 ConversationMemory
+    대화 모델은 이전 내용을 기억하고 이어나가야지 사람과 대화하는 느낌이 든다.
+    chat모델은 메모리를 지원하지 않기 때문에 랭체인 메모리 기능을 활용해야한다.
+    랭체인에서 지원하는 메모리 모델은 총 5가지가 있다(API는 모두 동일).
+        1. ConversationBufferMemory - 단순히 대화내용을 저장 ( 대화가 길어질 수록 메모리가 커져서 비효율적)
+        2. ConversationBufferWindowMemory - 한도 수량 내에서 최근 대화 내용을 저장 ( 오래된 것 부터 순차적으로 삭제하여, 메모리 크기 유지) 
+        3. ConversationSummaryMemory - llm사용(메모리 사용에 비용필요), chat모델을 이용해서 대화내용을 요약하여 저장. 대화가 길어질 수록 유용하다.
+        4. ConversationSummaryBufferMemory - 일정 개수가 넘어가면 요약(systemMessage)을 시작 
+    ConversationKnowkedgeGraphMemory - 대화이력에서 중요한 내용(entity)만 요약하여 저장
+
+
