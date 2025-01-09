@@ -87,8 +87,8 @@ for studying LLM AI with nomad coder..
     PipelinePromptTemplate : 많은 프롬프트들의 memory를 모으는 방법
     * #연결 해주는 프롬프트의 형태를 설명하고, 리스트 형태로 조각 프롬프트를 넣어서 완성된 프롬프트를 만든다.
 
-# 250106 - 아직 강의 실습 안함
--- notebook4 -- 
+# 250106
+    -- notebook4 -- 
     #4.5 Chaching
     같은 질문이 반복적으로 올 확률이 높다면, 캐시를 이용해서 정해진 답을 반복 제출하게 함으로써 효율을 높일 수 있다. >> set_llm_cache(InMemoryCache()) 
     개발과정에서 챗모델의 작업 과정이나 결과물 도출을 위해 사용된 설정 및 수치를 확인 할 수 있다. >> set_debug(True)
@@ -107,6 +107,33 @@ for studying LLM AI with nomad coder..
         2. ConversationBufferWindowMemory - 한도 수량 내에서 최근 대화 내용을 저장 ( 오래된 것 부터 순차적으로 삭제하여, 메모리 크기 유지) 
         3. ConversationSummaryMemory - llm사용(메모리 사용에 비용필요), chat모델을 이용해서 대화내용을 요약하여 저장. 대화가 길어질 수록 유용하다.
         4. ConversationSummaryBufferMemory - 일정 개수가 넘어가면 요약(systemMessage)을 시작 
-    ConversationKnowkedgeGraphMemory - 대화이력에서 중요한 내용(entity)만 요약하여 저장
+        5. ConversationKnowkedgeGraphMemory - 대화이력에서 중요한 내용(entity)만 요약하여 저장
 
+# 250108 - 아직 강의 실습 안함
+    #5.8 recap
+    <프롬프트에 메모리를 추가하는 3가지 방법>
+    LLM chain >>
+    Chat prompt template >>
+    수동 메모리 관리법 (권장) >>  
+    * 메모리를 저장한 뒤에 메모리로 활용할 수 있는 것들이 있기 때문
 
+# 250109
+    #5.5 Memory on LLMChain
+    LLMChain (Off-the-shelf chain) 일반적인 목적을 가진 chain을 의미.
+    chain = LLMChain(
+        llm=llm,memory=memory,prompt= PromptTemplate.from_template("{question}")
+        verbose=True, # chain프롬프트 로그 확인
+    )
+    프롬프트 템플릿에 대화의 기록을 넣을 자리를 만들어주고, 그 자리에 memoryClass의 memory_key를 이용해서 넣어준다. >> memory = ConversationSummaryBufferMemory(llm=llm,max_token_limit=120 
+    memory_key="chat_history",)
+
+    #5.6 ChatBasedMemory 
+    대화형 메세지는 문자열방식/메세지방식 중 고를 수 있다.
+     >> return_messages=True, 속성을 통해 문자열로 받을지 메세지로 받을지 선택 가능
+    얼마나 많은 대화내용이 들어올 지 모르기 때문에 공간을 만든다. 
+     >> MessagePlaceholder(variable_name = memory에서 사용한 변수이름)
+
+    #5.7 LCEL BasedMemory
+    load_memory_bariables({})['history'] >> 저장해둔 대화 혹은 요약(메모리)을 로드 시킬 수 있다. 
+    save_context >> HumanMessages(Input)와 AIMessages(Output)를 메모리에 저장한다.
+    RunnablePassthrough.assign()함수를 LCEL 맨 앞에 넣음으로써, 프롬프트 포맷팅 전에 필요한 함수를 실행시키고, 해당 함수에 필요한 값을 변수에 할당 할 수 있게 된다.
