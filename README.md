@@ -149,7 +149,17 @@ for studying LLM AI with nomad coder..
             chunk_size=500, #자르는 크기 기준
             chunk_overlap=50, # 자를 때 중복되는 크기
         )
+    #6.2 Tiktoken
+        token:모델이 단어를 해석하는 단위.
+        우리는 단어의갯수, 문자의 갯수등으로 정보량을 세지만, llm은 토큰의 개수로 정보량을 센다.
 
+    #6.3 Vectors
+        https://turbomaze.github.io/word2vecjson/
+        https://www.youtube.com/watch?v=2eWuYf-aZE4
+
+    #6.4
+        vectorStore : 문서를 임배딩하여 벡터화하고, 벡터스토어를 활용해서 비슷한 문서를 찾을 수 있게 된다. 
+        CacheBackedEmbeddings /LocalFileStore : 임배딩한 내용은 저장해서 사용하면 비용을 절약할 수 있다.
 
     #6.7 
         LLM은 추가 자료를 작게 잘라줄 수록 비용, 속도, 검색 성능면에서 뛰어나지므로 작게 잘라서 줘야한다.
@@ -162,4 +172,7 @@ for studying LLM AI with nomad coder..
         vectorstore의 작동:
         MapReRank의 작동 : 도큐멘트를 순회하면서 각 도큐멘트에 기반해서 질문에 대답하고, 답변에 점수를 매겨줘
 
+    #6.8 Stuff LCEL Chain
+        RunnablePassthrough : input값을 그 다음 체인에게 전달해야할 때 사용한다. 
+        
     #6.10 Recap
