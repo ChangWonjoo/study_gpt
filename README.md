@@ -137,3 +137,29 @@ for studying LLM AI with nomad coder..
     load_memory_bariables({})['history'] >> 저장해둔 대화 혹은 요약(메모리)을 로드 시킬 수 있다. 
     save_context >> HumanMessages(Input)와 AIMessages(Output)를 메모리에 저장한다.
     RunnablePassthrough.assign()함수를 LCEL 맨 앞에 넣음으로써, 프롬프트 포맷팅 전에 필요한 함수를 실행시키고, 해당 함수에 필요한 값을 변수에 할당 할 수 있게 된다.
+
+
+# 250112
+    #6.0 Introduction
+        RAG(검색 증강 생성) 모델이 일반적으로 접근할 수 없는 우리의 개인 정보 혹은 개인 자료를 컨텍스트로써 질문과 함께 제공하여 랭귀지 모델을 확장시켜 검색하는 방법
+        
+    #6.1 DataLoaders and Spitters
+        RAG - 랭체인 모듈 Retrival ( Source >> Load Data >> Transform(split) >> Embed >> Store >> Retrieve  )
+        splitter = RecursiveCharacterTextSplitter(
+            chunk_size=500, #자르는 크기 기준
+            chunk_overlap=50, # 자를 때 중복되는 크기
+        )
+
+
+    #6.7 
+        LLM은 추가 자료를 작게 잘라줄 수록 비용, 속도, 검색 성능면에서 뛰어나지므로 작게 잘라서 줘야한다.
+        Document를 적재(load)하고 분할(split)한다.
+        Embedding - text에 의미별로 적절한 점수를 부여해서 vector형식으로 표현한 것. 
+         >> OpenAIEmbeddings model사용하여 임베딩 된 내용을 Cache(저장)하였음
+
+        stuff / map rerank, map reduce, refine
+
+        vectorstore의 작동:
+        MapReRank의 작동 : 도큐멘트를 순회하면서 각 도큐멘트에 기반해서 질문에 대답하고, 답변에 점수를 매겨줘
+
+    #6.10 Recap
