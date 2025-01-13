@@ -157,11 +157,11 @@ for studying LLM AI with nomad coder..
         https://turbomaze.github.io/word2vecjson/
         https://www.youtube.com/watch?v=2eWuYf-aZE4
 
-    #6.4
+    #6.4 Vector Store
         vectorStore : 문서를 임배딩하여 벡터화하고, 벡터스토어를 활용해서 비슷한 문서를 찾을 수 있게 된다. 
         CacheBackedEmbeddings /LocalFileStore : 임배딩한 내용은 저장해서 사용하면 비용을 절약할 수 있다.
 
-    #6.7 
+    #6.7 Recap
         LLM은 추가 자료를 작게 잘라줄 수록 비용, 속도, 검색 성능면에서 뛰어나지므로 작게 잘라서 줘야한다.
         Document를 적재(load)하고 분할(split)한다.
         Embedding - text에 의미별로 적절한 점수를 부여해서 vector형식으로 표현한 것. 
@@ -172,7 +172,23 @@ for studying LLM AI with nomad coder..
         vectorstore의 작동:
         MapReRank의 작동 : 도큐멘트를 순회하면서 각 도큐멘트에 기반해서 질문에 대답하고, 답변에 점수를 매겨줘
 
+    #6.10 Recap
+
+# 250113
+    #6.5 RetrievalQA
+    랭스미스 연동 안될 떄 **
+        pip install -U langchain
+        Pip install -U langchain-community
+
     #6.8 Stuff LCEL Chain
         RunnablePassthrough : input값을 그 다음 체인에게 전달해야할 때 사용한다. 
-        
-    #6.10 Recap
+
+    #6.9 Map Reduce LCEL Chain
+    RunnableLambda : chain과 그 내부 어디에서든 funciton을 호출할 수 있도록 해줌
+
+    stuff 방식 : 질문을 query하여 관련있는 지문을 먼저 찾아서 찾은 지문 전체를 prompt로 넣고 llm을 돌린다.
+    map reduce 방식 : 질문을 기반으로 retriever를 통해 찾은 질문과 연관된 지문 단락을 단락 수 만큼 for 문 수행하면서 각 단락 기준으로 llm 의 결과를 저장함. 각각 저장된 llm의 결과를 prompt로 합쳐서 llm 이 최종 결과를 만들어 냄.
+
+# 250114
+    #7.0 Introduction
+    
