@@ -1,10 +1,23 @@
 import streamlit as st
 
-st.title("hello world")
+st.set_page_config(
+    page_title="FullstackGPT Home",
+    page_icon="🤖",
+)
 
-st.subheader("This is a subheadaaar")
-
-st.markdown("""
-# This is a markdown
-# This is a markdown
-# """)
+st.markdown(
+    """
+# Hello!
+            
+Welcome to my FullstackGPT Portfolio!
+            
+Here are the apps I made:
+            
+- [ ] [DocumentGPT](/DocumentGPT)
+- [ ] [PrivateGPT](/PrivateGPT)
+- [ ] [QuizGPT](/QuizGPT)
+- [ ] [SiteGPT](/SiteGPT)
+- [ ] [MeetingGPT](/MeetingGPT)
+- [ ] [InvestorGPT](/InvestorGPT)
+"""
+)

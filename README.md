@@ -192,3 +192,15 @@ for studying LLM AI with nomad coder..
 # 250114
     #7.0 Introduction
     
+    #7.1 Magic
+    st.write() : write 함수를 사용해서 화면에 출력할 수 있다(형식은 알아서 맞춰준다).
+    magic : st.wirte함수를 쓰지 않고 쥬피터 노트북처럼 변수명을 써놓는 것 만으로 동일하게 출력된다.
+    
+    #7.2 DataFlow
+    data flow : 페이지 속 데이터 변경이 발생하면 python파일 전체가 재실행된다.
+
+    #7.3 Multi Page
+    streamlit은 자동적으로 pages폴더를 찾아서 참조한다.
+
+    #7.4 Chat Messages
+    session state는 여러번의 재실행에도 data가 보존될 수 있도록 해준다.
