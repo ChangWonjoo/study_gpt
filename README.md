@@ -204,3 +204,7 @@ for studying LLM AI with nomad coder..
 
     #7.4 Chat Messages
     session state는 여러번의 재실행에도 data가 보존될 수 있도록 해준다.
+
+    #7.5 Recap
+
+    #7.6 Uploading Documents
