@@ -9,13 +9,15 @@ from langchain.storage import LocalFileStore
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.runnable import RunnablePassthrough, RunnableLambda
 
-
 st.set_page_config(
     page_title="DocumentGPT",
     page_icon="📃",
 )
 
+if "messages" not in st.session_state:
+    st.session_state["messages"] = []
 
+@st.cache_data(show_spinner="Embedding the file...")
 def embed_file(file):
     file_content = file.read()
     file_path = f"./.cache/files/{file.name}"
@@ -23,7 +25,7 @@ def embed_file(file):
     with open(file_path, "wb") as f:
         f.write(file_content)
     
-    loader = UnstructuredFileLoader("./.cache/files/Genesis.txt")
+    loader = UnstructuredFileLoader(file_path)
 
     splitter = CharacterTextSplitter.from_tiktoken_encoder(
         separator="\n",
@@ -45,19 +47,41 @@ def embed_file(file):
     retriever = vector_store.as_retriever()
     return retriever
 
+def send_message(message, role, save=True):
+    with st.chat_message(role):
+        st.markdown(message)
+    if save:
+        st.session_state["messages"].append({"message": message, "role": role})
+
+def paint_history():
+    # st.write(st.session_state)
+    for message in st.session_state["messages"]:
+        send_message(message["message"], message["role"], save=False)
+
+
+
 st.title("DocumentGPT")
 
 st.markdown("""
 Welcome!
 Use this chatbot to ask questions about the DocumentGPT model.
+            
+            Please upload file on side bar a .txt, .pdf or .docx file to get started.
 """)
 
-file = st.file_uploader("Upload a .txt .pdf or .docx file", 
-                        type=["txt", "pdf", "docx"])
+with st.sidebar:
+    file = st.file_uploader("Upload a .txt .pdf or .docx file", 
+                            type=["txt", "pdf", "docx"])
 
 if file:
-    # st.write("File uploaded")
-    # st.write(file)
     retriever = embed_file(file)
-    s = retriever.invoke("What is the document about?")
-    st.write(s)
+    send_message("I'm ready! Ask a question!", "ai", save=False)
+    paint_history()
+
+    message = st.chat_input("ask anything about your file")
+    if message:
+        send_message(message, "human")
+
+else:
+    #채팅을 중단하기 위해 파일을 삭제하면, 대화창을 없애는 동시에 대화기록을 초기화 한다.
+    st.session_state["messages"] = []  

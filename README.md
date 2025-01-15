@@ -208,3 +208,14 @@ for studying LLM AI with nomad coder..
     #7.5 Recap
 
     #7.6 Uploading Documents
+    @st.cache_data(show_spinner="Embedding the file...")
+    함수 위에 데코레이션을 붙여서 file이 변경되지 않는 이상은 함수를 다시 실행하지 않고 저장된 return값을 바로 반환한다.
+    이것은 streamlit이 기본적으로 파일 혹은 input값을 hash화 하여 가지고 있기 떄문이다.
+
+    #7.7 Chat History 
+    if file:
+        retriever = embed_file(file)
+        ..중략..
+    else:
+        #채팅을 중단하기 위해 파일을 삭제하면, 대화창을 없애는 동시에 대화기록을 초기화 한다.
+        st.session_state["messages"] = []  
