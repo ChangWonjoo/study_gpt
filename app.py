@@ -29,14 +29,6 @@ class ChatCallbackHandler(BaseCallbackHandler):
         self.message += token
         self.message_box.markdown(self.message)
 
-llm = ChatOpenAI(
-    temperature=0.1,
-    streaming=True,
-    callbacks=[
-        ChatCallbackHandler(),
-    ],
-)
-
 
 @st.cache_data(show_spinner="Embedding the file...")
 def embed_file(file):
@@ -109,7 +101,10 @@ This chatbot is for asking questions about your documents.
 with st.sidebar:
     st.markdown("[Link to the code on GitHub](https://github.com/ChangWonjoo/study_gpt/blob/main/app.py)")
 
-    api_key = st.text_input("Enter your OpenAI API Key", type="password")
+    openai_api_key = st.text_input("Enter your OpenAI API Key", type="password")
+    if openai_api_key:
+        st.session_state["openai_api_key"] = openai_api_key
+    st.write(st.session_state)
 
     file = st.file_uploader(
         "Upload a .txt .pdf or .docx file", 
@@ -117,13 +112,17 @@ with st.sidebar:
     )
 
 # OpenAI API 키 설정
-if api_key:
-    st.session_state["api_key"] = api_key
-
-if file:
-    if "api_key" not in st.session_state:
-        st.error("Please enter your OpenAI API Key in the sidebar.")
-    else:
+if "openai_api_key" in st.session_state:
+    llm = ChatOpenAI(
+        openai_api_key=st.session_state["openai_api_key"],
+        temperature=0.1,
+        streaming=True,
+        callbacks=[
+            ChatCallbackHandler(),
+        ],
+    )
+    
+    if file:
         retriever = embed_file(file)
         send_message("I'm ready! Ask a question!", "ai", save=False)
         paint_history()
@@ -141,7 +140,9 @@ if file:
             )
             with st.chat_message("ai"):
                 response = chain.invoke(message)
-            
+    else:
+        #채팅을 중단하기 위해 파일을 삭제하면, 대화창을 없애는 동시에 대화기록을 초기화 한다.
+        st.session_state["messages"] = []  
+
 else:
-    #채팅을 중단하기 위해 파일을 삭제하면, 대화창을 없애는 동시에 대화기록을 초기화 한다.
-    st.session_state["messages"] = []  
+    st.error("Please enter your OpenAI API Key in the sidebar.")
