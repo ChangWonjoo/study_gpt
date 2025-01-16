@@ -104,7 +104,7 @@ with st.sidebar:
     openai_api_key = st.text_input("Enter your OpenAI API Key", type="password")
     if openai_api_key:
         st.session_state["openai_api_key"] = openai_api_key
-    st.write(st.session_state)
+    # st.write(st.session_state)
 
     file = st.file_uploader(
         "Upload a .txt .pdf or .docx file", 
