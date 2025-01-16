@@ -2,6 +2,4 @@ python-3.11.9-amd64.exe
 env/
 .env
 files/*
-.cache/embeddings/
-.cache/files/
 .streamlit/
