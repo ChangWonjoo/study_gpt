@@ -107,29 +107,40 @@ This chatbot is for asking questions about your documents.
 """)
 
 with st.sidebar:
+    st.markdown("[Link to the code on GitHub](https://github.com/ChangWonjoo/study_gpt/blob/main/app.py)")
+
+    api_key = st.text_input("Enter your OpenAI API Key", type="password")
+
     file = st.file_uploader(
         "Upload a .txt .pdf or .docx file", 
         type=["txt", "pdf", "docx"],
     )
 
-if file:
-    retriever = embed_file(file)
-    send_message("I'm ready! Ask a question!", "ai", save=False)
-    paint_history()
+# OpenAI API 키 설정
+if api_key:
+    st.session_state["api_key"] = api_key
 
-    message = st.chat_input("ask anything about your file")
-    if message:
-        send_message(message, "human")
-        chain = (
-            {
-                "context": retriever | RunnableLambda(format_docs),
-                "question": RunnablePassthrough(),
-            }
-            | prompt
-            | llm
-        )
-        with st.chat_message("ai"):
-            response = chain.invoke(message)
+if file:
+    if "api_key" not in st.session_state:
+        st.error("Please enter your OpenAI API Key in the sidebar.")
+    else:
+        retriever = embed_file(file)
+        send_message("I'm ready! Ask a question!", "ai", save=False)
+        paint_history()
+
+        message = st.chat_input("ask anything about your file")
+        if message:
+            send_message(message, "human")
+            chain = (
+                {
+                    "context": retriever | RunnableLambda(format_docs),
+                    "question": RunnablePassthrough(),
+                }
+                | prompt
+                | llm
+            )
+            with st.chat_message("ai"):
+                response = chain.invoke(message)
             
 else:
     #채팅을 중단하기 위해 파일을 삭제하면, 대화창을 없애는 동시에 대화기록을 초기화 한다.
