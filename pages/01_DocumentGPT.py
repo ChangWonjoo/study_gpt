@@ -1,5 +1,4 @@
 import streamlit as st
-import time
 from langchain.chat_models import ChatOpenAI
 from langchain.document_loaders import UnstructuredFileLoader
 from langchain.text_splitter import CharacterTextSplitter
@@ -8,6 +7,7 @@ from langchain.vectorstores import Chroma, FAISS
 from langchain.storage import LocalFileStore
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.runnable import RunnablePassthrough, RunnableLambda
+from langchain.callbacks.base import BaseCallbackHandler
 
 st.set_page_config(
     page_title="DocumentGPT",
