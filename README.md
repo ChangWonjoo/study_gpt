@@ -220,8 +220,25 @@ for studying LLM AI with nomad coder..
         #채팅을 중단하기 위해 파일을 삭제하면, 대화창을 없애는 동시에 대화기록을 초기화 한다.
         st.session_state["messages"] = []  
 
+    #7.9 Streaming
+    ChatCallbackHandler를 커스텀(app.py 내용 참조) : 답변이 실시간으로 작성되는 것처럼 보이는 방법
+        class ChatCallbackHandler(BaseCallbackHandler):
+        message = ""
+
+        def on_llm_start(self, *args, **kwargs):
+            self.message_box = st.empty()
+
+        def on_llm_end(self, *args, **kwargs):
+            save_message(self.message, "ai")
+
+        def on_llm_new_token(self, token, *args, **kwargs):
+            self.message += token
+            self.message_box.markdown(self.message)
+
 
 # 250117
     #9.0 Introduction - QuizGPT
     #9.2 GPT-4-turbo
-    
+    #9.3 question_chain
+    #9.4 formatting_chain
+        ```json{{ json내용 }}``` {}를 두개 겹쳐서 쓰는이유는 기본적으로 langchain에서 변수를 {변수명}으로 쓰기 때문에 ai가 변수명처럼 오해하지 않길 바래서이다.
