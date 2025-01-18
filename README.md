@@ -219,3 +219,9 @@ for studying LLM AI with nomad coder..
     else:
         #채팅을 중단하기 위해 파일을 삭제하면, 대화창을 없애는 동시에 대화기록을 초기화 한다.
         st.session_state["messages"] = []  
+
+
+# 250117
+    #9.0 Introduction - QuizGPT
+    #9.2 GPT-4-turbo
+    
