@@ -71,18 +71,18 @@ function = {
  },#end of parameters
 }#end of function
 
-# llm = ChatOpenAI(
-#     temperature=0.1,
-#     model_name="gpt-3.5-turbo",
-#     streaming=True,
-#     callbacks=[StreamingStdOutCallbackHandler()],
-# ).bind(
-#     #You can set the `function_call` arg to force the model to use a function
-#     function_call = {
-#       "name": "create_quiz",
-#     },
-#     functions=[function],
-# )
+llm = ChatOpenAI(
+    temperature=0.1,
+    model_name="gpt-3.5-turbo",
+    streaming=True,
+    callbacks=[StreamingStdOutCallbackHandler()],
+).bind(
+    #You can set the `function_call` arg to force the model to use a function
+    function_call = {
+      "name": "create_quiz",
+    },
+    functions=[function],
+)
 
 def  format_docs(docs):
     return "\n\n".join(document.page_content for document in docs)
@@ -160,30 +160,6 @@ def painting_form():
     pass
 
 with st.sidebar:
-
-    st.markdown("[Link to the code on GitHub](https://github.com/ChangWonjoo/study_gpt/blob/main/app.py)")
-
-    openai_api_key = st.text_input("Enter your OpenAI API Key", type="password")
-    if openai_api_key:
-        st.session_state["openai_api_key"] = openai_api_key
-    # st.write(st.session_state)
-
-    # OpenAI API 키 설정
-    if "openai_api_key" in st.session_state:
-        llm = ChatOpenAI(
-            openai_api_key=st.session_state["openai_api_key"],
-            temperature=0.1,
-            model_name="gpt-3.5-turbo",
-            streaming=True,
-            callbacks=[StreamingStdOutCallbackHandler()],
-        ).bind(
-            #You can set the `function_call` arg to force the model to use a function
-            function_call = {
-            "name": "create_quiz",
-            },
-            functions=[function],
-        )
-    
     topic = None
     docs = None
     difficulty = st.selectbox("Choose the difficulty of the quiz.", ["Easy", "Medium", "Hard"])
