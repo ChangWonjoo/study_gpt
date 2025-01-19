@@ -97,7 +97,6 @@ for studying LLM AI with nomad coder..
     챗모델을 사용하는 비용을 추정할 수 있다. >> with get_openai_callback() as usage:
     llm모델의 설정을 저장하고 불러올 수 있다. >> 저장: chat.save("models.json") //
 
-
 # 250107 - 아직 강의 실습 안함
     #5.1~5.4 ConversationMemory
     대화 모델은 이전 내용을 기억하고 이어나가야지 사람과 대화하는 느낌이 든다.
@@ -152,6 +151,10 @@ for studying LLM AI with nomad coder..
     #6.2 Tiktoken
         token:모델이 단어를 해석하는 단위.
         우리는 단어의갯수, 문자의 갯수등으로 정보량을 세지만, llm은 토큰의 개수로 정보량을 센다.
+        ***질문***
+        Q.모델은 token단위로 단어를 읽고, 사람은 단어 단위로 읽는다고 하셨는데요.
+        3:49에서 쌤이 말씀하시는 "우리가 세는 방법과 모델이 세는 방법이 같다"는 표현은 어떤 것을 이야기하는 것일까요?
+        A.The way we count words in a sentence is roughly the way the model counts tokens in a sentence, not 100% but an approximation.
 
     #6.3 Vectors
         https://turbomaze.github.io/word2vecjson/
@@ -242,3 +245,17 @@ for studying LLM AI with nomad coder..
     #9.3 question_chain
     #9.4 formatting_chain
         ```json{{ json내용 }}``` {}를 두개 겹쳐서 쓰는이유는 기본적으로 langchain에서 변수를 {변수명}으로 쓰기 때문에 ai가 변수명처럼 오해하지 않길 바래서이다.
+
+    #9.5 output parser
+    ** invoke()의 인자로 넣을 때는 바로로
+        formatting_chain = formatting_prompt | llm
+        formatting_response = formatting_chain.invoke(question_response.content)
+
+    ** LCEL의 체인 안에 넣을 때는 .content속성을 찾아가기 때문에 붙이지 않는다.
+        chain = {"context": question_chain} | formatting_chain | output_parser
+    
+    ** ```json ///내용/// ``` 이렇게 예시를 적어주면 AI가 쓸데없는 말을 앞뒤에 붙이지 않고 결과만을 반환한다.
+
+    UnhashableParamError: Cannot hash argument 'docs' (of type builtins.list) in 'run_quiz_chain'.
+    >> 해시할 수 없는 매개변가 있거나 stramilit이 데이터의 서명을 만들 수 없는 상황에서 함수의 인자를 cache를 만들기 위해 hasing을 시도하면 오류가 발생
+    >> 함수 인자에 (_docs, topic) 방식으로 "_"값을 인자앞에 붙이면 해싱을 하지 않아 에러가 해결되나, 인자의 값이 바뀌어도 무시하게 도므로 추가인자를 통해 값이 바뀔 경우에는 해싱되도록 우회하여 작성한다.

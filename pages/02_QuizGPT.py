@@ -5,6 +5,14 @@ from langchain.document_loaders import UnstructuredFileLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.prompts import ChatPromptTemplate
 from langchain.callbacks import StreamingStdOutCallbackHandler
+import json
+from langchain.schema import BaseOutputParser, output_parser
+
+class JsonOutputParser(BaseOutputParser):
+    def parse(self, text):
+        text = text.replace("```", "").replace("json", "")
+        return json.loads(text)
+output_parser = JsonOutputParser()
 
 st.set_page_config(
     page_title="QuizGPT",
@@ -201,6 +209,18 @@ def spilt_file(file):
 
     return docs
 
+@st.cache_data(show_spinner="Mainkg Quiz...")
+def run_quiz_chain(_docs, topic):
+    chain = {"context": question_chain} | formatting_chain | output_parser
+    return chain.invoke(_docs)
+
+@st.cache_data(show_spinner="Searching Wikipedia...")
+def wiki_search(topic):
+    retriever = WikipediaRetriever(top_k_results=5)
+    return retriever.get_relevant_documents(topic)
+
+
+topic = None
 with st.sidebar:
     docs = None
     choice = st.selectbox(
@@ -218,10 +238,7 @@ with st.sidebar:
     else:
         topic = st.text_input("Search Wikipedia Article")
         if topic:
-            retriever = WikipediaRetriever(top_k_results=5)
-            with st.status("Searching Wikipedia Article..."):
-                docs = retriever.get_relevant_documents(topic)
-                # st.write(docs)
+            docs = wiki_search(topic)
 
 if not docs:
     st.markdown(
@@ -239,11 +256,10 @@ else:
     # st.write(docs)
     start = st.button("Start Quiz")
     if start:
-        question_response = question_chain.invoke(docs)
+        # question_response = question_chain.invoke(docs)
         # st.write(result)
-        st.write(question_response.content)
-        # st.write("---")
-        # st.write("(o)")
-        # st.write("---")
-        formatting_response = formatting_chain.invoke(question_response.content)
-        st.write(formatting_response.content)
+        # st.write(question_response.content)
+        # formatting_response = formatting_chain.invoke(question_response.content)
+        # st.write(formatting_response.content)
+        response = run_quiz_chain(docs, topic if topic else file.name)
+        st.write(response)
