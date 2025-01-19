@@ -259,3 +259,13 @@ for studying LLM AI with nomad coder..
     UnhashableParamError: Cannot hash argument 'docs' (of type builtins.list) in 'run_quiz_chain'.
     >> 해시할 수 없는 매개변가 있거나 stramilit이 데이터의 서명을 만들 수 없는 상황에서 함수의 인자를 cache를 만들기 위해 hasing을 시도하면 오류가 발생
     >> 함수 인자에 (_docs, topic) 방식으로 "_"값을 인자앞에 붙이면 해싱을 하지 않아 에러가 해결되나, 인자의 값이 바뀌어도 무시하게 도므로 추가인자를 통해 값이 바뀔 경우에는 해싱되도록 우회하여 작성한다.
+
+    #9.6 
+    리스트 컴프리헨션과 제너레이터 표현식 요약
+    ** 리스트 컴프리헨션 : 리스트 컴프리헨션은 대괄호 []를 사용하여 리스트를 생성. 주어진 조건이나 변환을 적용하여 새로운 리스트를 생성하는 데 사용됩니다.
+        리스트 컴프리헨션: [document["page_content"] for document in docs]는 docs 리스트의 각 document 객체에서 page_content 속성을 추출하여 새로운 리스트를 생성합니다.
+        결과 출력: 변환된 리스트를 출력합니다.
+    ** 제너레이터 표현식 : 제너레이터 표현식은 소괄호 ()를 사용하여 제너레이터 객체를 생성. 메모리 효율성을 높이기 위해 사용되며, 필요할 때마다 값을 하나씩 생성합니다.
+        제너레이터 표현식: document["page_content"] for document in docs는 제너레이터 표현식입니다. 이는 docs 리스트의 각 document 객체에서 page_content 속성을 추출합니다.
+        join 메서드: "\n\n".join(...)는 제너레이터 표현식에서 생성된 문자열을 "\n\n"로 결합합니다.
+        결과 출력: 결합된 문자열을 출력합니다.

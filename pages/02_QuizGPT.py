@@ -190,10 +190,10 @@ formatting_prompt = ChatPromptTemplate.from_messages(
 
 formatting_chain = formatting_prompt | llm
 
-st.cache_data(show_spinner="Loading file...")
+@st.cache_data(show_spinner="Loading file...")
 def spilt_file(file):
     file_content = file.read()
-    file_path = f"./.cache/files/{file.name}"
+    file_path = f"./.cache/quiz_files/{file.name}"
     # st.write(file_content, file_path)
     with open(file_path, "wb") as f:
         f.write(file_content)
@@ -220,8 +220,8 @@ def wiki_search(topic):
     return retriever.get_relevant_documents(topic)
 
 
-topic = None
 with st.sidebar:
+    topic = None
     docs = None
     choice = st.selectbox(
         "Choose what you want to use.",
@@ -253,13 +253,18 @@ if not docs:
     """
     )
 else:
-    # st.write(docs)
-    start = st.button("Start Quiz")
-    if start:
-        # question_response = question_chain.invoke(docs)
-        # st.write(result)
-        # st.write(question_response.content)
-        # formatting_response = formatting_chain.invoke(question_response.content)
-        # st.write(formatting_response.content)
-        response = run_quiz_chain(docs, topic if topic else file.name)
-        st.write(response)
+    response = run_quiz_chain(docs, topic if topic else file.name)
+    with st.form("questions_form"):
+        for question in response["questions"]:
+            st.write(question["question"])
+            value = st.radio(
+                "Answers the question.",
+                [answer["answer"] for answer in question["answers"]],
+                index = None,
+            )
+            # st.write(value)
+            if {"answer": value, "correct": True} in question["answers"]:
+                st.success("Correct!")
+            elif value is not None:
+                st.error("Wrong!")
+        button = st.form_submit_button("Submit Answers")
