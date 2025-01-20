@@ -269,3 +269,13 @@ for studying LLM AI with nomad coder..
         제너레이터 표현식: document["page_content"] for document in docs는 제너레이터 표현식입니다. 이는 docs 리스트의 각 document 객체에서 page_content 속성을 추출합니다.
         join 메서드: "\n\n".join(...)는 제너레이터 표현식에서 생성된 문자열을 "\n\n"로 결합합니다.
         결과 출력: 결합된 문자열을 출력합니다.
+
+# 250120
+    #10.1 AsyncChromiumLoader (가상환경활성화 >> playwright install 설치진행)
+       AsyncChromiumLoader로 HTML가져오기 >> Html2TextTransformer로  HTML을 text로 변환
+    ** chromium / playwright는 browser control(브라우저 컨트롤)을 할 수 있는 package.(selenium과 비슷) >> 대상 웹 사이트에 sitemap이 없거나 많은 양의 javascript를 가져서 javascript가 로드될 때까지 기다려야하는 웹 사이트(동적 웹사이트)로부터 자료를 가져올 떄 좋음.
+    ** sitemap을 활용하는 방법 : 정적인 텍스트로 구성된 웹사이트에 좋음.
+
+ # 250121
+    #10.2 SitemapLoader
+    
