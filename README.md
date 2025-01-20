@@ -276,6 +276,19 @@ for studying LLM AI with nomad coder..
     ** chromium / playwright는 browser control(브라우저 컨트롤)을 할 수 있는 package.(selenium과 비슷) >> 대상 웹 사이트에 sitemap이 없거나 많은 양의 javascript를 가져서 javascript가 로드될 때까지 기다려야하는 웹 사이트(동적 웹사이트)로부터 자료를 가져올 떄 좋음.
     ** sitemap을 활용하는 방법 : 정적인 텍스트로 구성된 웹사이트에 좋음.
 
+    NotImplementedError 발생 >> windows에서 실행하는 경우, 결과를 반환하기 위해 같이 돌아가야하는 함수가 제대로 동작하지 않아서 발생할 수 있다고 한다(?).
+    해결책 : 아래 두 줄을 추가한다.
+    import asyncio
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
  # 250121
+    https://www.google.com/forms/sitemaps.xml
     #10.2 SitemapLoader
-    
+    Empty 반환 에러 : pip install fake_useragent
+    해결책>>
+    from fake_useragent import UserAgent
+    ua = UserAgent() # Initialize a UserAgent object
+    loader = SitemapLoader(url)
+    loader.headers = {'User-Agent': ua.random}
+
+
