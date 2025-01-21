@@ -291,4 +291,9 @@ for studying LLM AI with nomad coder..
     loader = SitemapLoader(url)
     loader.headers = {'User-Agent': ua.random}
 
-
+    #10.3 Parsing Function
+    데이터를 가져올 URL을 필터링 하는 두 가지 방법
+        1. 직접 URL 설정
+        2. URL 필터링을 위한 정규식 설정
+    헤더/풋터 제거 방법
+        parsing_function속성 이용
