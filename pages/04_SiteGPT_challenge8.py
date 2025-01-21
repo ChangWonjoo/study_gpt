@@ -19,11 +19,12 @@ from langchain.vectorstores.faiss import FAISS
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
+from langchain.callbacks import StreamingStdOutCallbackHandler
 import streamlit as st
 
-llm = ChatOpenAI(
-    temperature=0.1,
-)
+# llm = ChatOpenAI(
+#     temperature=0.1,
+# )
 
 answers_prompt = ChatPromptTemplate.from_template(
     """
@@ -146,7 +147,9 @@ def load_website(url):
     )
     loader.requests_per_second = 2
     docs = loader.load_and_split(text_splitter=splitter)
-    vector_store = FAISS.from_documents(docs, OpenAIEmbeddings())
+    vector_store = FAISS.from_documents(docs, OpenAIEmbeddings(
+        api_key=st.session_state["openai_api_key"],
+        ))
     return vector_store.as_retriever()
 
 
@@ -168,6 +171,23 @@ st.markdown(
 
 
 with st.sidebar:
+    st.markdown("[Link to the code on GitHub](https://github.com/ChangWonjoo/study_gpt/blob/main/)")
+
+    openai_api_key = st.text_input("Enter your OpenAI API Key", type="password")
+    if openai_api_key:
+        st.session_state["openai_api_key"] = openai_api_key
+    # st.write(st.session_state)
+
+     # OpenAI API 키 설정
+    if "openai_api_key" in st.session_state:
+        llm = ChatOpenAI(
+            openai_api_key=st.session_state["openai_api_key"],
+            temperature=0.1,
+            # model_name="gpt-3.5-turbo",
+            streaming=True,
+            callbacks=[StreamingStdOutCallbackHandler()],
+        )
+
     url = st.text_input(
         "Write down a URL",
         placeholder="https://example.com",
