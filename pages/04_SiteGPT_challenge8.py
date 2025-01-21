@@ -162,10 +162,10 @@ st.set_page_config(
 st.markdown(
     """
     # SiteGPT
+    
+    Start by writing the OpenAIKey & sitemap URL on the sidebar.
+    and then, Ask questions about the content of a website.
             
-    Ask questions about the content of a website.
-            
-    Start by writing the URL of the website on the sidebar.
 """
 )
 
@@ -192,7 +192,7 @@ if "openai_api_key" in st.session_state:
         streaming=True,
         callbacks=[StreamingStdOutCallbackHandler()],
     )
-    
+
     if url:
         if ".xml" not in url:
             with st.sidebar:
