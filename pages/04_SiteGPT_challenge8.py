@@ -164,6 +164,7 @@ st.markdown(
     # SiteGPT
     
     Start by writing the OpenAIKey & sitemap URL on the sidebar.
+    
     and then, Ask questions about the content of a website.
             
 """
@@ -171,7 +172,7 @@ st.markdown(
 
 
 with st.sidebar:
-    st.markdown("[Link to the code on GitHub](https://github.com/ChangWonjoo/study_gpt/blob/main/)")
+    st.markdown("[Link to the code on GitHub](https://github.com/ChangWonjoo/study_gpt/commit/ea7993941af0e414bba8d720ad18c407e51c9968#diff-ccdccc66ba501ee6d447119afd718517de132cc7d9469bf36272ce0e13b9c120)")
 
     openai_api_key = st.text_input("Enter your OpenAI API Key", type="password")
     if openai_api_key:
