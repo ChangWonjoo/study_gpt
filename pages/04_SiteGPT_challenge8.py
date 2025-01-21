@@ -182,7 +182,7 @@ with st.sidebar:
         "Write down a URL",
         placeholder="https://example.com",
     )
-    
+
 # OpenAI API 키 설정
 if "openai_api_key" in st.session_state:
     llm = ChatOpenAI(
@@ -192,26 +192,27 @@ if "openai_api_key" in st.session_state:
         streaming=True,
         callbacks=[StreamingStdOutCallbackHandler()],
     )
+    
+    if url:
+        if ".xml" not in url:
+            with st.sidebar:
+                st.error("Please write down a Sitemap URL.")
+        else:
+            retriever = load_website(url)
+            query = st.text_input("Ask a question to the website.")
+            if query:
+                chain = (
+                    {
+                        "docs": retriever,
+                        "question": RunnablePassthrough(),
+                    }
+                    | RunnableLambda(get_answers)
+                    | RunnableLambda(choose_answer)
+                )
+                result = chain.invoke(query)
+                st.markdown(result.content.replace("$", "\$"))
 else:
     st.error("Please enter your OpenAI API Key in the sidebar.")
 
 
 
-if url:
-    if ".xml" not in url:
-        with st.sidebar:
-            st.error("Please write down a Sitemap URL.")
-    else:
-        retriever = load_website(url)
-        query = st.text_input("Ask a question to the website.")
-        if query:
-            chain = (
-                {
-                    "docs": retriever,
-                    "question": RunnablePassthrough(),
-                }
-                | RunnableLambda(get_answers)
-                | RunnableLambda(choose_answer)
-            )
-            result = chain.invoke(query)
-            st.markdown(result.content.replace("$", "\$"))
