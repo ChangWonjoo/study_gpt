@@ -178,20 +178,23 @@ with st.sidebar:
         st.session_state["openai_api_key"] = openai_api_key
     # st.write(st.session_state)
 
-     # OpenAI API 키 설정
-    if "openai_api_key" in st.session_state:
-        llm = ChatOpenAI(
-            openai_api_key=st.session_state["openai_api_key"],
-            temperature=0.1,
-            # model_name="gpt-3.5-turbo",
-            streaming=True,
-            callbacks=[StreamingStdOutCallbackHandler()],
-        )
-
     url = st.text_input(
         "Write down a URL",
         placeholder="https://example.com",
     )
+    
+# OpenAI API 키 설정
+if "openai_api_key" in st.session_state:
+    llm = ChatOpenAI(
+        openai_api_key=st.session_state["openai_api_key"],
+        temperature=0.1,
+        # model_name="gpt-3.5-turbo",
+        streaming=True,
+        callbacks=[StreamingStdOutCallbackHandler()],
+    )
+else:
+    st.error("Please enter your OpenAI API Key in the sidebar.")
+
 
 
 if url:
