@@ -297,3 +297,54 @@ for studying LLM AI with nomad coder..
         2. URL 필터링을 위한 정규식 설정
     헤더/풋터 제거 방법
         parsing_function속성 이용
+
+
+# 250122
+    #12.1 Your First Agent
+    Agent는 커스텀 툴을 필요할 때 활용할 수 있기 때문에 llm자체에서 해결하지 못하는 약점을 보완할 수 있다.
+
+    agent = initialize_agent(
+        llm=llm, #쳇모델 설정
+        verbose=True,  #동작 로그나 추가정보를 출력하여 동작 과정을 모니터링할 수 있게한다.
+        agent= #어떤 agent로 초기화할지 정해줘야한다.
+        tools=[ #사용하는 툴 등록
+            StructuredTool.from_function(
+                func=plus,
+                name="Sum Calculator",
+                description="Use this to perform sums of two numbers. This tool take two arguments, both should be numbers.",
+            ),
+        ],
+    )
+
+# 250123
+    #12.2 How Do Agents Work
+    StructuredTool : langchain은 llm이 Finish Agent 값을 반환하기 전까지 일정 형식에 맞춰 이전 기록과 함께 반복적으로 프롬프트를 던진다. >> 가끔 json이 아닌 text타입으로 반환하면 오류가 날 수 있다. >> functioncall을 이용하여 좀 더 답변의 틀을 강제하면 안정적으로 이용할 수 있다. >> #12.3내용
+    https://python.langchain.com/v0.1/docs/modules/agents/concepts/
+
+    #12.3 Zero-shot ReAct Agent
+    Zero-shot ReAct Agent : functioncall을 이용하지 못하는 모델에도 적용가능하여 가장 범용적으로 사용된다. >> 단일 input만 받을 수 있다. 
+    OpenAIFunctions : funcitoncall 기능을 이용하기 때문에 가장 안정적이다.
+
+    #12.4 OpenAIFunctions Agent
+    pydantic을 이용하여 우리의 함수와 입력값의 형태를 정의하도록 한다.
+
+    ** type annotation 에러 발생 >> tool의 name/desciption 타입 추가
+    PydanticUserError: Field 'name' defined on a base class was overridden by a non-annotated attribute. All field definitions, including overrides, require a type annotation.
+    >>     
+    class CalculatorTool(BaseTool):
+        name = "CalculatorTool" >> name: str = "CalculatorTool"
+        description = """~""" >> description: str = """~"""
+
+    #12.5
+    Duckduckgo 사용해서 주식 심볼 찾는 과정
+    TypeError: DDGS.text() got an unexpected keyword argument 'max_results' 에러 발생
+    >>pip install -U duckduckgo_search 설치 진행 후 VSC혹은 쥬피터 재실행하면 해결.
+
+    #12.6
+    alpha_vantage_api를 활용해서 툴을 늘리기
+
+    #12.7
+    stock agent streamlit에 옮기고 Agent가 OpenAI에 전달하는 system prompt를 커스터마이징
+
+    #12.8
+    FileManagementToolkit >> 파일을 다룰 수 있다.
