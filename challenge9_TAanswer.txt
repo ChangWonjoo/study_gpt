@@ -1,0 +1,20 @@
+https://gist.github.com/ICE0208/8a81578719ccdf4fc48cfbbfc4178b65
+DuckDuckGoSearchTool
+DuckDuckGo에서 검색을 수행하는 도구입니다.
+DuckDuckGoSearchRun를 이용하여 특정 키워드를 DuckDuckGo에서 검색을 하고 그 결과를 반환합니다.
+WikipediaSearchTool
+위키피디아에서 검색을 수행하는 도구입니다.
+WikipediaQueryRun를 이용하여 특정 키워드를 위키피디아에서 검색하고 그 결과를 반환합니다.
+WebScrapingTool
+DuckDuckGo의 검색 결과에서 특정 웹페이지에 대한 자세한 조사가 필요할 때 해당 웹페이지를 스크랩할 수 있는 도구입니다.
+랭체인에서 제공하는 WebBaseLoader를 이용하여 구현하였습니다.
+SaveToTXTTool
+에이전트가 모든 조사를 마쳤을 때 나온 결과물을 txt 파일로 저장 하는 도구입니다.
+파이썬에서 기본으로 제공하는 파일 입출력 방식을 이용하였습니다.
+(python - reading-and-writing-files)
+에이전트 생성
+AgentType.OPENAI_FUNCTIONS 으로 위에서 만든 커스텀 도구와 함께 에이전트를 생성하였습니다.
+사용하는 llm 모델은 2024년 7월 20일 기준 저렴하면서 토큰량이 많은 gpt-4o-mini 로 지정하였습니다.
+agent_kwargs 매개 변수를 통해 커스텀 시스템 메시지를 넣어서 에이전트에게 역할을 더 확실하게 알려주었습니다.
+결론
+강의에서 배운 커스텀 도구를 만드는 방법을 응용하여 다양한 커스텀 도구에 의해 동작하는 에이전트를 구현해 보는 챌린지였습니다.
