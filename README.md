@@ -395,7 +395,7 @@ for studying LLM AI with nomad coder..
 # challenge 10
 이유는 모르겠으나 json.loads()를 두번 먹이면 object변환이 된다..
     * 아무래도 ""가 안 밖으로 반복해서 나오는 것이 문제되는 듯.
-    json.loads()를 두번하면 안쪽이 모두 ''
+    json.loads()를 두번하면 안쪽이 모두 ''로 바뀐다.
     a = json.loads(get_income_statement({"ticker": "AAPL"}))
     st.write(a) # 안됨
     st.write(json.loads(a)) # 변환됨
