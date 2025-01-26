@@ -348,3 +348,45 @@ for studying LLM AI with nomad coder..
 
     #12.8
     FileManagementToolkit >> 파일을 다룰 수 있다.
+
+# 240124
+    #14.1
+        https://platform.openai.com/assistants
+        https://platform.openai.com/docs/assistants/overview
+    #14.2
+        OpenAI에서 제공하는 agent (Assisteant)를 만들어 보자.
+            야후 파이낸스 설치 & OpenAi module을 최신으로 업데이트
+            pip install yfinance openai --upgrade
+        assistant생성
+        assistant = client.beta.assistants.create(
+            name="Investor Assistant",
+            instructions="어시스턴트의 무드 설정",
+            model="gpt-4-1106-preview",
+            tools=[
+                List형태의 문자열로 어떤 구조의 함수가 있는지 설명
+            ],
+        )
+
+    #14.3 Assistant Tools
+        쓰레드를 만들고 쓰레드에 메세지를 담은 뒤, 쓰레드를 런(실행)한다.
+
+        DuckDuckGoSearchException: https://html.duckduckgo.com/html 202 Ratelimit
+        >> 해결 못해서 return값을 고정하여 사용하도록 하고 다음 진도 진행.
+
+        OpenAI assistant playground를 통해 어떤 입력값을 넣어야 할지 AI 답변 및 요청 내용이 있는지 확인할 수 있음.
+
+    #14.4 Running A Thread
+        쓰레드에 메세지를 담아서 만든다.
+        만들어진 쓰레드를 어시스트를 지정하여 실행한다.
+        run.status를 통해 in-progress / expired / require-action등의 응답이 오므로 해당 응답에 맞춰 메세지를 출력한다.
+
+    #14.5 Assisstant Actions
+        function_map을 이용해서 필요한 함수를 모아놓고 사용한다.
+        어시스턴트에게 받은 질문 및 요청에 응답하기 위한 send_message함수
+
+
+        send_message함수와 get_tool_outputs/ 를 통해 함수 응답결과를 반환한다.
+
+    #14.8 RAG assistant >> 아직 다 안들음
+        1. 어시스턴트 UI에서 직접 파일을 업로드 할 수 있다.
+        2. 

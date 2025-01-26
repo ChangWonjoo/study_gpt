@@ -1,40 +1,26 @@
 ### XZ Backdoor Overview
 
-The XZ backdoor refers to a malicious code that was discovered in XZ Utils, a widely used open-source data compression utility, particularly in Linux distributions. This backdoor was introduced in versions 5.6.0 and 5.6.1 of XZ Utils and was designed to manipulate the SSH daemon (sshd), allowing unauthorized remote access to systems using SSH.
+In February 2024, a malicious backdoor was introduced to the Linux build of the xz utility within the liblzma library in versions 5.6.0 and 5.6.1 by an account using the name "Jia Tan". The backdoor gives an attacker who possesses a specific Ed448 private key remote code execution capabilities on the affected Linux system. The issue has been given the Common Vulnerabilities and Exposures number CVE-2024-3094 and has been assigned a CVSS score of 10.0, the highest possible score. While xz is commonly present in most Linux distributions, at the time of discovery, the backdoored version had not yet been widely deployed to production systems but was present in development versions of major distributions. The backdoor was discovered by the software developer Andres Freund, who announced his findings on March 29, 2024.
 
-### Discovery of the Backdoor
+### Details of the Backdoor
 
-The backdoor was uncovered by Andres Freund, a developer at Microsoft, while troubleshooting performance issues related to SSH on a Debian system. Freund noticed unusual behavior linked to updates in XZ Utils, leading to the discovery of the malicious code. The backdoor was reported on March 29, 2024, and was identified as a sophisticated supply chain attack that could have had catastrophic consequences if it had not been detected early.
+The backdoor was introduced through a series of updates that modified the behavior of the xz utility, specifically targeting the SSH daemon (sshd). The malicious code allowed unauthorized access to systems by manipulating SSH authentication processes. The backdoor was designed to inject code during a critical phase of the SSH login process, potentially allowing attackers to execute arbitrary commands on compromised systems.
 
-### Functionality of the Backdoor
+The backdoor was discovered during troubleshooting by Andres Freund, who noticed performance issues related to SSH logins. Upon investigation, he found that the issues were linked to the updates made to xz Utils, leading to the revelation of the backdoor.
 
-The malicious code modified the way XZ Utils interacts with the SSH daemon. Specifically, it allowed anyone with a predetermined encryption key to inject arbitrary code into SSH login certificates, which could then be executed on the compromised device. This could potentially lead to various malicious actions, including stealing files or installing additional malware.
+### Technical Mechanism
 
-### Technical Details
+The backdoor works by allowing someone with the right private key to hijack the sshd process. It uses a five-stage loader to hide its presence and can deliver new payloads without requiring significant changes to the original code. The malicious changes were submitted by JiaT75, who had been involved in the xz project for years, raising concerns about the integrity of other contributions made by this developer.
 
-1. **Manipulation of SSH**: The backdoor works by injecting code during the SSH authentication process. It hooks into the RSA public key decryption function, allowing attackers to bypass authentication or execute commands before the authentication step.
-2. **Obfuscation**: The code was highly obfuscated to evade detection during code reviews, making it difficult for maintainers to identify the malicious changes.
-3. **Long-term Planning**: The attacker, known by the username JiaT75, had been contributing to open-source projects for years, building a credible reputation before introducing the backdoor.
+### Implications and Response
 
-### Timeline of Events
-- **2021**: JiaT75 created their GitHub account and began contributing to various projects.
-- **2023**: JiaT75 submitted patches to XZ Utils, eventually introducing the backdoor in early 2024.
-- **February 2024**: Versions 5.6.0 and 5.6.1 were released with the backdoor.
-- **March 29, 2024**: The backdoor was publicly disclosed.
-
-### Impact and Response
-
-The backdoor was found in beta releases of major Linux distributions, including Debian and Red Hat, but was not present in stable releases at the time of discovery. The open-source community responded quickly, rolling back affected versions and implementing measures to prevent similar attacks in the future.
-
-### Detection and Remediation
-
-To check if a system is affected, users can run commands to verify the version of XZ Utils installed. If vulnerable versions are detected, it is recommended to downgrade to a safe version (5.4.6 or earlier) and restart the SSH service to remove the malicious code from memory.
+The discovery of the backdoor raised alarms within the open-source community, highlighting the risks associated with supply chain attacks. Fortunately, the backdoor was caught before it could be widely deployed in production environments, potentially averting a significant security crisis. Major Linux distributions, including Debian and Red Hat, were alerted to the issue, and steps were taken to revert to safe versions of xz Utils.
 
 ### Conclusion
 
-The XZ backdoor incident highlights the vulnerabilities inherent in open-source software development, particularly regarding supply chain attacks. It underscores the importance of vigilance in code reviews and the need for robust security practices in software development.
+The xz backdoor serves as a stark reminder of the vulnerabilities inherent in open-source software development, particularly regarding the trust placed in contributors. It underscores the need for rigorous code review processes and vigilance against potential malicious activities within the software supply chain.
 
 ### Sources
 - [WIRED: The XZ Backdoor: Everything You Need to Know](https://www.wired.com/story/xz-backdoor-everything-you-need-to-know/)
 - [Ars Technica: Backdoor found in widely used Linux utility targets encrypted SSH connections](https://arstechnica.com/security/2024/03/backdoor-found-in-widely-used-linux-utility-breaks-encrypted-ssh-connections/)
-- [JFrog: CVE-2024-3094 XZ Backdoor: All You Need To Know](https://jfrog.com/blog/xz-backdoor-attack-cve-2024-3094-all-you-need-to-know/)
+- [Wikipedia: XZ Utils backdoor](https://en.wikipedia.org/wiki/XZ_Utils_backdoor)
